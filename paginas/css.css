@@ -1,153 +1,24 @@
-body {
-  font-family: 'Poppins', sans-serif;
+/* ================== RESET E ESTILO BASE ================== */
+body, html {
+  height: 100%;
   margin: 0;
+  font-family: 'Poppins', sans-serif;
   background-color: #f9fdf9;
   color: #222;
-  animation: fadeInBody 1s ease forwards;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ================== ANIMAÇÕES ================== */
 @keyframes fadeInBody {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
-}
-
-header {
-  background-color: #00aea8;
-  color: white;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 40px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  animation: slideDown 0.6s ease forwards;
-}
-
-@keyframes slideDown {
-  from { opacity: 0; transform: translateY(-20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.header h1 {
-  font-size: 1.8em;
-  transition: transform 0.3s ease;
-}
-
-.header h1:hover {
-  transform: scale(1.05);
-}
-
-nav a {
-  margin-left: 15px;
-  text-decoration: none;
-  font-weight: 600;
-  position: relative;
-  transition: color 0.3s;
-}
-
-nav a::after {
-  content: '';
-  position: absolute;
-  width: 0;
-  height: 2px;
-  bottom: -3px;
-  left: 0;
-  background-color: white;
-  transition: width 0.3s;
-}
-
-nav a:hover::after {
-  width: 100%;
-}
-
-.btn, .btn-outline {
-  padding: 10px 20px;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-}
-
-.btn {
-  background-color: white;
-  color: #00aea8;
-  border: none;
-}
-
-.btn:hover {
-  background-color: #27ae60;
-  color: white;
-  transform: translateY(-3px);
-  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-}
-
-.btn-outline {
-  border: 2px solid white;
-  color: white;
-}
-
-.btn-outline:hover {
-  background-color: white;
-  color: #2ecc71;
-  transform: translateY(-3px);
-  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-}
-
-.hero {
-  height: 80vh;
-  background: linear-gradient(to right, #e8ffe8, #ffffff);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 30px;
-  animation: fadeInHero 1s ease forwards;
-}
-
-@keyframes fadeInHero {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.hero-text h2 {
-  font-size: 2em;
-  color: #00aea8;
-  transition: transform 0.3s ease;
-}
-
-.hero-text h2:hover {
-  transform: scale(1.05);
-}
-
-.hero-text p {
-  margin: 20px 0;
-  color: #333;
-  animation: fadeInText 1.2s ease forwards;
-}
-
-@keyframes fadeInText {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-footer {
-  text-align: center;
-  padding: 15px;
-  background-color: #2ecc71;
-  color: white;
-  animation: fadeInFooter 1s ease forwards;
-}
-
-@keyframes fadeInFooter {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.container {
-  max-width: 400px;
-  margin: 80px auto;
-  padding: 30px;
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.1);
-  animation: popUp 0.6s ease forwards;
 }
 
 @keyframes popUp {
@@ -155,30 +26,200 @@ footer {
   to { opacity: 1; transform: scale(1); }
 }
 
-form {
+/* ================== CONTAINER DO FORMULÁRIO ================== */
+.container {
+  width: 90%;
+  max-width: 1400px;
+  min-width: 700px;
+  padding: 80px;
+  background: white;
+  border-radius: 30px;
+  box-shadow: 0 0 50px rgba(0,0,0,0.15);
+  animation: popUp 0.6s ease forwards;
+
   display: flex;
   flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* ================== LOGO ================== */
+#logo {
+  display: block;
+  margin-bottom: 50px;
+  width: 360px;
+  max-width: 70%;
+  height: auto;
+}
+
+/* ================== FORMULÁRIO ================== */
+form, .form-box {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+h2, h3 {
+  font-size: 3em;       /* títulos grandes */
+  margin-bottom: 30px;
+  color: inherit;       /* mantém cor padrão do texto (#222) */
 }
 
 input, select {
-  margin-bottom: 15px;
-  padding: 10px;
+  margin-bottom: 40px;
+  padding: 24px;
   border: 1px solid #ccc;
-  border-radius: 6px;
+  border-radius: 16px;
+  font-size: 1.8em;
   transition: all 0.3s ease;
+}
+
+input::placeholder {
+  font-size: 1.6em;
 }
 
 input:focus, select:focus {
   border-color: #00aea8;
   outline: none;
   transform: scale(1.02);
-  box-shadow: 0 0 8px #00aea8;
+  box-shadow: 0 0 16px #00aea8;
 }
 
 button {
-  background-color: #00aea8; border-radius: 12px; border: none; padding: 10px 20px; font-size: 16px; color: white;
+  background-color: #00aea8;
+  border-radius: 24px;
+  border: none;
+  padding: 28px 48px;
+  font-size: 3em;
+  color: white;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: all 0.3s ease;
 }
 
-a {
-  text-decoration: none;
+button:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+/* ================== LINKS ================== */
+p {
+  font-size: 3em; /* aumentado */
+  margin-top: 20px;
+}
+
+p a {
+  color: #00aea8;
+}
+
+p a:hover {
+  text-decoration: underline;
+}
+
+/* ================== RESPONSIVIDADE ================== */
+@media (max-width: 1024px) {
+  .container {
+    max-width: 1200px;
+    padding: 70px;
+  }
+
+  #logo {
+    width: 320px;
+  }
+
+  h2, h3 {
+    font-size: 3em;
+  }
+
+  input, select {
+    font-size: 2em;
+    padding: 22px;
+    margin-bottom: 36px;
+    border-radius: 14px;
+  }
+
+  input::placeholder {
+    font-size: 1.4em;
+  }
+
+  button {
+    font-size: 3em;
+    padding: 24px 44px;
+  }
+
+  p {
+    font-size: 2.5em;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    max-width: 1000px;
+    padding: 60px;
+  }
+
+  #logo {
+    width: 280px;
+    max-width: 50%;
+  }
+
+  h2, h3 {
+    font-size: 2em;
+  }
+
+  input, select {
+    font-size: 1.4em;
+    padding: 20px;
+    margin-bottom: 32px;
+    border-radius: 12px;
+  }
+
+  input::placeholder {
+    font-size: 1.2em;
+  }
+
+  button {
+    font-size: 4em;
+    padding: 20px 40px;
+  }
+
+  p {
+    font-size: 1.5em;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    width: 95%;
+    padding: 50px;
+  }
+
+  #logo {
+    width: 160px;
+    max-width: 40%;
+  }
+
+  h2, h3 {
+    font-size: 1.6em;
+  }
+
+  input, select {
+    font-size: 1.2em;
+    padding: 16px;
+    margin-bottom: 28px;
+    border-radius: 10px;
+  }
+
+  input::placeholder {
+    font-size: 1em;
+  }
+
+  button {
+    font-size: 1.4em;
+    padding: 16px 32px;
+  }
+
+  p {
+    font-size: 12px;
+  }
 }
