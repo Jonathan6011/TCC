@@ -1,0 +1,124 @@
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}
+
+/* Container geral */
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  padding: 2rem;
+}
+
+/* Caixa de formulário */
+.form-box {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  padding: 2rem 3rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+  text-align: center;
+  width: 300px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-box:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+}
+
+/* Títulos */
+h2, h3 {
+  margin-bottom: 1rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+/* Inputs */
+input {
+  display: block;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  margin: 0.5rem 0;
+  border: none;
+  border-radius: 50px;
+  outline: none;
+  transition: 0.3s;
+  font-size: 1rem;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+input::placeholder {
+  color: #ddd;
+  opacity: 0.7;
+}
+
+input:focus {
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 8px rgba(255,255,255,0.7);
+  transform: scale(1.05);
+}
+
+/* Botões */
+button {
+  width: 100%;
+  padding: 0.75rem;
+  margin-top: 0.5rem;
+  border: none;
+  border-radius: 50px;
+  background: linear-gradient(135deg, #f6d365, #fda085);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 25px rgba(0,0,0,0.3);
+}
+
+/* Mensagens */
+p {
+  margin-top: 10px;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: 0.3s;
+}
+
+/* Animação de aparição */
+.container, .form-box {
+  animation: fadeIn 0.8s ease forwards;
+  opacity: 0;
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+/* Responsividade */
+@media(max-width: 700px) {
+  .container {
+    flex-direction: column;
+    align-items: center;
+  }
+  .form-box {
+    width: 90%;
+  }
+}

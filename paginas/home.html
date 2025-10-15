@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Home</title>
+  <link rel="stylesheet" href="css.css">
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="form-box">
+      <h2>Bem-vindo!</h2>
+      <p id="userEmail">Carregando...</p>
+      <button onclick="logout()">Sair</button>
+    </div>
+  </div>
+
+  <script>
+    // Config Firebase (mesma do index.js)
+    const firebaseConfig = {
+      apiKey: "AIzaSyAbVJUTwovjKHua6OWP_yIncKYytEEwPfo",
+      authDomain: "tcc-994f7.firebaseapp.com",
+      projectId: "tcc-994f7",
+      storageBucket: "tcc-994f7.firebasestorage.app",
+      messagingSenderId: "848443566233",
+      appId: "1:848443566233:web:b9be3b2beccb027fa53008",
+      measurementId: "G-SGB2LYMT17"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    // Verifica se o usuário está logado
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        document.getElementById('userEmail').textContent = "Email logado: " + user.email;
+      } else {
+        // Redireciona para login se não houver usuário logado
+        window.location.href = '../index.html';
+      }
+    });
+
+    // Logout
+    function logout() {
+      auth.signOut().then(() => {
+        window.location.href = '../index.html';
+      }).catch(error => {
+        alert("Erro ao sair: " + error.message);
+      });
+    }
+  </script>
+</body>
+</html>
