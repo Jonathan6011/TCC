@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>Login e Cadastro Firebase</title>
+  <title>Login e Cadastro</title>
   <link rel="stylesheet" href="css.css">
   <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -10,17 +10,8 @@
 </head>
 <body>
   <div class="container">
-    <h2>Autenticação Firebase</h2>
-
-    <!-- Formulário de Cadastro -->
-    <div class="form-box">
-      <h3>Cadastro</h3>
-      <input type="email" id="cadEmail" placeholder="Email">
-      <input type="password" id="cadSenha" placeholder="Senha">
-      <button onclick="cadastrar()">Cadastrar</button>
-      <p id="msgCadastro"></p>
-    </div>
-
+     <img src="../assets/logo.png" alt="Logo TCC" className="logo" />
+    <h2>Gym Warriors</h2>
     <!-- Formulário de Login -->
     <div class="form-box">
       <h3>Login</h3>
@@ -29,8 +20,13 @@
       <button onclick="login()">Entrar</button>
       <p id="msgLogin"></p>
     </div>
-  </div>
+     <p>você não tem uma conta?
+    <a href="cadastro.html"  style="text-decoration: none; color: #00aea8;">cadastre-se</a> aqui 
+</p>
 
+  </div>
+ 
   <script src="js.js"></script>
 </body>
 </html>
+

@@ -6,18 +6,20 @@
   <link rel="stylesheet" href="css.css">
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 </head>
 <body>
   <div class="container">
     <div class="form-box">
       <h2>Bem-vindo!</h2>
-      <p id="userEmail">Carregando...</p>
-      <button onclick="logout()">Sair</button>
+      <p id="userName">Carregando...</p>
+      <button id="logoutBtn" style="margin-top: 10px;">Sair</button>
+       
     </div>
   </div>
 
   <script>
-    // Config Firebase (mesma do index.js)
+    // Config Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyAbVJUTwovjKHua6OWP_yIncKYytEEwPfo",
       authDomain: "tcc-994f7.firebaseapp.com",
@@ -30,25 +32,23 @@
 
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
+    const db = firebase.firestore();
 
     // Verifica se o usuário está logado
     auth.onAuthStateChanged(user => {
       if (user) {
-        document.getElementById('userEmail').textContent = "Email logado: " + user.email;
+        document.getElementById('userName').textContent = "Nome do usuário: " + (user.displayName || "Sem nome");
       } else {
-        // Redireciona para login se não houver usuário logado
-        window.location.href = '../index.html';
+        window.location.href = 'login.html';
       }
     });
 
     // Logout
-    function logout() {
+    document.getElementById('logoutBtn').addEventListener('click', () => {
       auth.signOut().then(() => {
-        window.location.href = '../index.html';
-      }).catch(error => {
-        alert("Erro ao sair: " + error.message);
+        window.location.href = 'login.html';
       });
-    }
+    });
   </script>
 </body>
 </html>

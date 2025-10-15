@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Login e Cadastro Firebase</title>
+  <link rel="stylesheet" href="css.css">
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h2>Gym Warriors</h2>
+
+    <!-- Formulário de Cadastro -->
+    <div class="form-box">
+      <h3>Cadastro</h3>
+      <input type="text" id="cadNome" placeholder="Nome completo"><br>
+      <input type="email" id="cadEmail" placeholder="Email"><br>
+      <input type="password" id="cadSenha" placeholder="Senha"><br>
+      <button onclick="cadastrar()">Cadastrar</button>
+      <p id="msgCadastro"></p>
+    </div>
+<p>você ja tem uma conta?
+    <a href="login.html"  style="color: #00aea8;">login  </a>
+</p>
+  <script src="js.js"></script>
+</body>
+</html>

@@ -12,22 +12,37 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 
-// Função de cadastro
+// Função de cadastro com nome
 function cadastrar() {
+  const nome = document.getElementById('cadNome').value.trim();
   const email = document.getElementById('cadEmail').value.trim();
   const senha = document.getElementById('cadSenha').value.trim();
   const msg = document.getElementById('msgCadastro');
 
-  if(!email || !senha) {
+  if(!nome || !email || !senha) {
     msg.style.color = 'red';
-    msg.textContent = "Preencha email e senha corretamente!";
+    msg.textContent = "Preencha todos os campos corretamente!";
     return;
   }
 
   auth.createUserWithEmailAndPassword(email, senha)
     .then(userCredential => {
-      msg.style.color = 'green';
-      msg.textContent = "Cadastro realizado! Agora faça login.";
+      // Atualiza displayName com o nome do usuário
+      return userCredential.user.updateProfile({ displayName: nome });
+    })
+    .then(() => {
+      msg.style.color = 'cyan';
+      msg.textContent = "Cadastro realizado! Redirecionando...";
+      
+      // Limpa os campos
+      document.getElementById('cadNome').value = '';
+      document.getElementById('cadEmail').value = '';
+      document.getElementById('cadSenha').value = '';
+
+      // Redireciona para cadastro2.html após 1 segundo
+      setTimeout(() => {
+        window.location.href = 'cadastro2.html';
+      }, 1000); // 1000 ms = 1 segundo
     })
     .catch(error => {
       msg.style.color = 'red';
@@ -37,6 +52,7 @@ function cadastrar() {
       else msg.textContent = "Erro: " + error.message;
     });
 }
+
 
 // Função de login
 function login() {
@@ -52,8 +68,9 @@ function login() {
 
   auth.signInWithEmailAndPassword(email, senha)
     .then(userCredential => {
-      msg.style.color = 'green';
-      msg.textContent = "Login realizado! Redirecionando...";
+      const user = userCredential.user;
+      msg.style.color = 'cyan';
+      msg.textContent = `Login realizado! Bem-vindo, ${user.displayName}`;
       setTimeout(() => window.location.href = 'home.html', 1500);
     })
     .catch(error => {

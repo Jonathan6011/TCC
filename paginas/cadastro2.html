@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Home</title>
+  <link rel="stylesheet" href="css.css">
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="form-box">
+      <h2>Bem-vindo!</h2>
+      <p id="userName">Carregando...</p>
+
+      <form id="dadosForm">
+        <input type="number" id="altura" placeholder="Altura (cm)" required>
+        <input type="number" id="peso" placeholder="Peso (kg)" required>
+        <input type="number" id="idade" placeholder="Idade" required>
+        <input type="text" id="objetivo" placeholder="Objetivo" required>
+        <input type="text" id="focos" placeholder="Foco do treino" required>
+        <select id="genero" required>
+          <option value="Masculino">Masculino</option>
+          <option value="Feminino">Feminino</option>
+        </select>
+        <button type="submit">Salvar dados</button>
+   
+
+      <button id="logoutBtn" style="margin-top: 10px;">Sair</button>
+         </form>
+    </div>
+  </div>
+
+  <script>
+    // Config Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyAbVJUTwovjKHua6OWP_yIncKYytEEwPfo",
+      authDomain: "tcc-994f7.firebaseapp.com",
+      projectId: "tcc-994f7",
+      storageBucket: "tcc-994f7.firebasestorage.app",
+      messagingSenderId: "848443566233",
+      appId: "1:848443566233:web:b9be3b2beccb027fa53008",
+      measurementId: "G-SGB2LYMT17"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    // Verifica se o usuário está logado
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        document.getElementById('userName').textContent = "Nome do usuário: " + (user.displayName || "Sem nome");
+      } else {
+        window.location.href = 'login.html';
+      }
+    });
+
+    // Salvar dados no Firestore
+    const form = document.getElementById('dadosForm');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const altura = document.getElementById('altura').value;
+      const peso = document.getElementById('peso').value;
+      const idade = document.getElementById('idade').value;
+      const objetivo = document.getElementById('objetivo').value;
+      const focos = document.getElementById('focos').value;
+      const genero = document.getElementById('genero').value;
+
+      const user = auth.currentUser;
+      if (user) {
+        db.collection('usuarios').doc(user.uid).set({
+          altura,
+          peso,
+          idade,
+          objetivo,
+          focos,
+          genero
+        })
+        .then(() => {
+          alert('Dados salvos com sucesso!');
+          form.reset();
+        })
+        .catch((error) => {
+          console.error('Erro ao salvar dados:', error);
+          alert('Erro ao salvar dados. Veja o console.');
+        });
+      }
+    });
+
+    // Logout
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      auth.signOut().then(() => {
+        window.location.href = 'login.html';
+      });
+    });
+  </script>
+</body>
+</html>
