@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro - Etapa 3</title>
+  <link rel="stylesheet" href="css.css">
+  <style>
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .equipamento {
+      border: 2px solid #ccc;
+      padding: 10px;
+      border-radius: 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .equipamento img {
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
+    }
+
+    .equipamento.selecionado {
+      border-color: #00cfff;
+      background-color: #e6f9ff;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+    }
+  </style>
+
+  <!-- Firebase compat -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="form-box">
+      <h2>Selecione os equipamentos que você tem acesso:</h2>
+      <div class="grid" id="equipamentosGrid"></div>
+
+      <button onclick="salvarEquipamentos()">Salvar Seleção</button>
+    </div>
+  </div>
+
+  <script>
+    // Config Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyAbVJUTwovjKHua6OWP_yIncKYytEEwPfo",
+      authDomain: "tcc-994f7.firebaseapp.com",
+      projectId: "tcc-994f7",
+      storageBucket: "tcc-994f7.firebasestorage.app",
+      messagingSenderId: "848443566233",
+      appId: "1:848443566233:web:b9be3b2beccb027fa53008",
+      measurementId: "G-SGB2LYMT17"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    const equipamentos = [
+      { nome: "Halteres", img: "img/halteres.png" },
+      { nome: "Barra", img: "img/barra.png" },
+      { nome: "Elástico", img: "img/elastico.png" },
+      { nome: "Kettlebell", img: "img/kettlebell.png" },
+      { nome: "Corda", img: "img/corda.png" },
+      { nome: "Banco", img: "img/banco.png" },
+      { nome: "Anilhas", img: "img/anilhas.png" },
+      { nome: "Esteira", img: "img/esteira.png" },
+      { nome: "Sem Equipamento", img: "img/sem_equipamento.png" }
+    ];
+
+    const selecionados = new Set();
+
+    function renderEquipamentos() {
+      const grid = document.getElementById('equipamentosGrid');
+      equipamentos.forEach(equip => {
+        const div = document.createElement('div');
+        div.className = 'equipamento';
+        div.innerHTML = `
+          <img src="${equip.img}" alt="${equip.nome}">
+          <p>${equip.nome}</p>
+        `;
+        div.addEventListener('click', () => {
+          if (selecionados.has(equip.nome)) {
+            selecionados.delete(equip.nome);
+            div.classList.remove('selecionado');
+          } else {
+            selecionados.add(equip.nome);
+            div.classList.add('selecionado');
+          }
+        });
+        grid.appendChild(div);
+      });
+    }
+
+    function salvarEquipamentos() {
+      const user = auth.currentUser;
+      if (!user) {
+        alert('Usuário não logado');
+        return;
+      }
+
+      db.collection('usuarios').doc(user.uid).update({
+        equipamentos: Array.from(selecionados)
+      })
+      .then(() => {
+        alert('Equipamentos salvos com sucesso!');
+        window.location.href = 'home.html'; // ou próxima página
+      })
+      .catch((error) => {
+        console.error("Erro ao salvar:", error);
+        alert('Erro ao salvar equipamentos.');
+      });
+    }
+
+    // Garante que o usuário está logado
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        renderEquipamentos();
+      } else {
+        window.location.href = 'login.html';
+      }
+    });
+  </script>
+</body>
+</html>

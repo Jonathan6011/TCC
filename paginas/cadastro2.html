@@ -20,7 +20,7 @@
         <input type="number" id="peso" placeholder="Peso (kg)" required>
 
         <input type="number" id="idade" placeholder="Idade" required>
-        
+
         <select  id="objetivo" placeholder="Objetivo" required>
         ,<option value="resistencia">Resistencia</option>
           <option value="forca">Força</option>
@@ -31,7 +31,7 @@
 
 
 
-        <input type="text" id="focos" placeholder="Foco do treino" required>
+        <input type="text" id="focos" placeholder="Foco do treino" >
         
         <select id="genero" required>
           <option value="Masculino">Masculino</option>
@@ -95,6 +95,7 @@
         .then(() => {
           alert('Dados salvos com sucesso!');
           form.reset();
+          window.location.href = 'cadastro3.html';
         })
         .catch((error) => {
           console.error('Erro ao salvar dados:', error);
