@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gym Warriors - cadastro</title>
+<link rel="icon" type="image/png" href="../assets/logo.png">
+<link rel="stylesheet" href="style/cadastro2.css">
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+</head>
+<body>
+
+
+<!-- ✅ Modal de Alerta Estilizado -->
+<div id="customAlert" class="modal-alert" style="display: none;">
+  <div class="modal-content">
+    <p id="customAlertMessage"></p>
+    <button onclick="closeCustomAlert()">Confirmar</button>
+  </div>
+</div>
+
+<div class="container">
+  <div class="form-box">
+    <h2>Bem-vindo!</h2>
+    <p id="userName">Carregando...</p>
+
+    <form id="dadosForm">
+      <input type="number" id="altura" placeholder="Altura (cm)" required min="0" max="300"><br>
+      <input type="number" id="peso" placeholder="Peso (kg)" required>
+      <input type="number" id="idade" placeholder="Idade" required>
+
+      <select id="objetivo" required>
+        <option value="" disabled selected>Selecione um objetivo</option>
+        <option value="resistencia">Resistência</option>
+        <option value="forca">Força</option>
+        <option value="crescimento">Crescimento</option>
+        <option value="funcional">Funcional</option>
+        <option value="aerobico">Aeróbico</option>
+        <option value="mobilidade">Mobilidade</option>
+      </select><br>
+
+      <select id="genero" required>
+        <option value="" disabled selected>Gênero</option>
+        <option value="Masculino">Masculino</option>
+        <option value="Feminino">Feminino</option>
+      </select><br>
+
+      <button type="submit">Salvar dados</button>
+      <button id="logoutBtn" style="margin-top: 10px;">Sair</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  // Firebase Config
+  const firebaseConfig = {
+    apiKey: "AIzaSyAbVJUTwovjKHua6OWP_yIncKYytEEwPfo",
+    authDomain: "tcc-994f7.firebaseapp.com",
+    projectId: "tcc-994f7",
+    storageBucket: "tcc-994f7.firebasestorage.app",
+    messagingSenderId: "848443566233",
+    appId: "1:848443566233:web:b9be3b2beccb027fa53008",
+    measurementId: "G-SGB2LYMT17"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+
+  // Verifica se o usuário está logado
+  auth.onAuthStateChanged(user => {
+    if (user) {
+      document.getElementById('userName').textContent =
+        "Nome do usuário: " + (user.displayName || "Sem nome");
+    } else {
+      window.location.href = 'login.html';
+    }
+  });
+
+  // Salvar dados no Firestore
+  const form = document.getElementById('dadosForm');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const altura = document.getElementById('altura').value;
+    const peso = document.getElementById('peso').value;
+    const idade = document.getElementById('idade').value;
+    const objetivo = document.getElementById('objetivo').value;
+    const genero = document.getElementById('genero').value;
+
+    const user = auth.currentUser;
+    if (user) {
+      db.collection('usuarios').doc(user.uid).set({
+        altura,
+        peso,
+        idade,
+        objetivo,
+        genero
+      })
+      .then(() => {
+        form.reset();
+        showCustomAlert('Dados salvos com sucesso!', () => {
+          window.location.href = 'cadastro3.html';
+        });
+      })
+      .catch((error) => {
+        console.error('Erro ao salvar dados:', error);
+        showCustomAlert('Erro ao salvar dados. Veja o console.');
+      });
+    }
+  });
+
+  // Logout
+  document.getElementById('logoutBtn').addEventListener('click', () => {
+    auth.signOut().then(() => {
+      window.location.href = 'login.html';
+    });
+  });
+
+  // ✅ Funções do modal personalizado
+  let customAlertCallback = null;
+
+  function showCustomAlert(message, callback = null) {
+    const modal = document.getElementById('customAlert');
+    const messageElement = document.getElementById('customAlertMessage');
+    messageElement.textContent = message;
+    modal.style.display = 'flex';
+    customAlertCallback = callback;
+  }
+
+  function closeCustomAlert() {
+    const modal = document.getElementById('customAlert');
+    modal.style.display = 'none';
+    if (typeof customAlertCallback === 'function') {
+      customAlertCallback();
+      customAlertCallback = null;
+    }
+  }
+</script>
+
+</body>
+</html>

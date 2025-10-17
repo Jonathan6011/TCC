@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="../assets/logo.png">
+  <link rel="stylesheet" href="style/home.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gym Warriors - Home</title>
+  <link rel="stylesheet" href="">
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+</head>
+<body>
+
+
+  <div class="container">
+    <div class="form-box">
+      <h2>Bem-vindo!</h2>
+      <p id="userName">Carregando...</p>
+      <button id="logoutBtn" style="margin-top: 10px;">Sair</button>
+       
+    </div>
+  </div>
+
+  <script>
+    // Config Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyAbVJUTwovjKHua6OWP_yIncKYytEEwPfo",
+      authDomain: "tcc-994f7.firebaseapp.com",
+      projectId: "tcc-994f7",
+      storageBucket: "tcc-994f7.firebasestorage.app",
+      messagingSenderId: "848443566233",
+      appId: "1:848443566233:web:b9be3b2beccb027fa53008",
+      measurementId: "G-SGB2LYMT17"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    // Verifica se o usuário está logado
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        document.getElementById('userName').textContent = "Nome do usuário: " + (user.displayName || "Sem nome");
+      } else {
+        window.location.href = 'login.html';
+      }
+    });
+
+    // Logout
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      auth.signOut().then(() => {
+        window.location.href = 'login.html';
+      });
+    });
+  </script>
+</body>
+</html>
