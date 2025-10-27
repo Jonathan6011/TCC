@@ -29,9 +29,12 @@
       <p id="userName">Carregando...</p>
 
       <form id="dadosForm">
-        <input type="number" id="altura" placeholder="Altura (cm)" required min="0" max="300"><br>
-        <input type="number" id="peso" placeholder="Peso (kg)" required>
-        <input type="number" id="idade" placeholder="Idade" required>
+
+<input type="number" id="altura" placeholder="Altura (cm)" required onkeydown="if (event.key === '-' || event.key === 'e' || event.key === 'E') event.preventDefault();">
+
+<input type="number" id="peso" placeholder="Peso (kg)" required onkeydown="if (event.key === '-' || event.key === 'e' || event.key === 'E') event.preventDefault();">
+
+<input type="number" id="idade" placeholder="Idade" required onkeydown="if (event.key === '-' || event.key === 'e' || event.key === 'E') event.preventDefault();">
 
         <select id="objetivo" required>
           <option value="" disabled selected>Selecione um objetivo</option>
@@ -42,8 +45,8 @@
           <option value="Aeróbico">Aeróbico</option>
           <option value="Mobilidade">Mobilidade</option>
         </select><br> <br>
-        
-<!-- Parágrafo para descrição -->
+          
+  <!-- Parágrafo para descrição -->
 <p id="descricaoObjetivo" style="color: rgb(182, 182, 182)"></p>
 
         <select id="genero" required>
@@ -161,6 +164,8 @@ objetivoSelect.addEventListener('change', () => {
   const valor = objetivoSelect.value;
   descricaoObjetivo.textContent = descricoes[valor] || "";
 });
+
+
 
   </script>
 

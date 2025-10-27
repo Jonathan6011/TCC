@@ -21,11 +21,17 @@
     <img src="../assets/logo.png" alt="Logo TCC" id="logo" />
     <h2>Gym Warriors</h2>
     <!-- Formulário de Login -->
-    <div class="form-box">
+   <div class="form-box">
       <h3>Login</h3>
       <input type="email" id="logEmail" placeholder="Email">
       <input type="password" id="logSenha" placeholder="Senha">
       <button onclick="login()">Entrar</button>
+      
+      <a href="#" onclick="recuperarSenha(); return false;" 
+         style="color: #00aea8; text-decoration: none;">
+         Esqueci minha senha
+      </a>
+      
       <p id="msgLogin"></p>
     </div>
     <p>você não tem uma conta?

@@ -3,7 +3,7 @@ const firebaseConfig = {
   apiKey: "AIzaSyAbVJUTwovjKHua6OWP_yIncKYytEEwPfo",
   authDomain: "tcc-994f7.firebaseapp.com",
   projectId: "tcc-994f7",
-  storageBucket: "tcc-994f7.firebasestorage.app",
+  storageBucket: "tcc-994f7.appspot.com",
   messagingSenderId: "848443566233",
   appId: "1:848443566233:web:b9be3b2beccb027fa53008",
   measurementId: "G-SGB2LYMT17"
@@ -113,7 +113,38 @@ function login() {
     });
 }
 
-// Funções auxiliares
+// ✅ Função de recuperação de senha (Movida para o escopo global)
+function recuperarSenha() {
+    // Pega o email do campo de login (logEmail)
+    const email = document.getElementById('logEmail').value.trim();
+    const msg = document.getElementById('msgLogin'); // Reutiliza a mensagem de login
+
+    if (!email) {
+        msg.style.color = 'red';
+        msg.textContent = "Digite seu e-mail de login para recuperar a senha.";
+        return;
+    }
+
+    auth.sendPasswordResetEmail(email)
+        .then(() => {
+            msg.style.color = '#00aea8';
+            msg.textContent = "Link de recuperação enviado para o seu e-mail!";
+        })
+        .catch(error => {
+            msg.style.color = 'red';
+            // Exibe erro de e-mail não encontrado ou inválido
+            if (error.code === 'auth/user-not-found') {
+                msg.textContent = "Nenhuma conta encontrada com este e-mail.";
+            } else if (error.code === 'auth/invalid-email') {
+                msg.textContent = "E-mail inválido. Por favor, verifique o formato.";
+            } else {
+                msg.textContent = "Erro ao enviar link: " + error.message;
+            }
+        });
+}
+
+
+// Funções auxiliares (Modal, etc.)
 function showCustomAlert(message) {
   const modal = document.getElementById('customAlert');
   const messageElement = document.getElementById('customAlertMessage');
@@ -137,4 +168,4 @@ inputsTexto.forEach(input => {
   input.addEventListener('input', () => {
     input.value = cleanInput(input.value);
   });
-});
+}); 
