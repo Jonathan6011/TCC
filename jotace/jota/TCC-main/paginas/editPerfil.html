@@ -3,7 +3,7 @@
 
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gym Warriors - cadastro</title>
+  <title>Gym Warriors - Editar Perfil</title>
   <link rel="icon" type="image/png" href="../assets/logo.png">
   <link rel="stylesheet" href="style/cadastro2.css">
   <!-- Firebase -->
@@ -14,8 +14,7 @@
 
 <body>
 
-
-  <!-- ✅ Modal de Alerta Estilizado -->
+  <!-- Modal de Alerta -->
   <div id="customAlert" class="modal-alert" style="display: none;">
     <div class="modal-content">
       <p id="customAlertMessage"></p>
@@ -25,7 +24,7 @@
 
   <div class="container">
     <div class="form-box">
-      <h2>Bem-vindo!</h2>
+      <h2>Editar Perfil</h2>
       <p id="userName">Carregando...</p>
 
       <form id="dadosForm">
@@ -41,19 +40,18 @@
           <option value="Funcional">Funcional</option>
           <option value="Aeróbico">Aeróbico</option>
           <option value="Mobilidade">Mobilidade</option>
-        </select><br> <br>
-        
-<!-- Parágrafo para descrição -->
-<p id="descricaoObjetivo" style="color: rgb(182, 182, 182)"></p>
+        </select><br><br>
+
+        <p id="descricaoObjetivo" style="color: rgb(182, 182, 182)"></p>
 
         <select id="genero" required>
           <option value="" disabled selected>Gênero</option>
           <option value="Masculino">Masculino</option>
           <option value="Feminino">Feminino</option>
-        </select><br>
+        </select><br><br>
 
         <button type="submit">Salvar dados</button>
-        <button id="logoutBtn" style="margin-top: 10px;">Sair</button>
+        <button type="button" id="logoutBtn" style="margin-top: 10px;">Sair</button>
       </form>
     </div>
   </div>
@@ -74,21 +72,51 @@
     const auth = firebase.auth();
     const db = firebase.firestore();
 
-    // Verifica se o usuário está logado
+    const form = document.getElementById('dadosForm');
+    const descricaoObjetivo = document.getElementById('descricaoObjetivo');
+    const objetivoSelect = document.getElementById('objetivo');
+
+    // Descrições dos objetivos
+    const descricoes = {
+      "Resistência": "Resistência: Focado em aumentar a capacidade muscular e cardiovascular, melhorando a resistência física geral.",
+      "Força": "Força: Voltado para o ganho de força e potência muscular, com exercícios de alta intensidade e carga progressiva.",
+      "Crescimento": "Crescimento: Indicado para quem busca hipertrofia e aumento do volume muscular.",
+      "Funcional": "Funcional: Trabalha movimentos naturais do corpo, melhorando equilíbrio, coordenação e estabilidade.",
+      "Aeróbico": "Ideal: Ideal para quem deseja melhorar o condicionamento físico e queimar gordura corporal.",
+      "Mobilidade": "Mobilidade: Ajuda a aumentar a amplitude dos movimentos, flexibilidade e prevenir lesões."
+    };
+
+    objetivoSelect.addEventListener('change', () => {
+      descricaoObjetivo.textContent = descricoes[objetivoSelect.value] || "";
+    });
+
+    // Verifica autenticação e carrega dados existentes
     auth.onAuthStateChanged(user => {
       if (user) {
-        document.getElementById('userName').textContent =
-          "Nome do usuário: " + (user.displayName || "Sem nome");
+        const userRef = db.collection('usuarios').doc(user.uid);
+
+        userRef.get().then(doc => {
+          if (doc.exists) {
+            const dados = doc.data();
+            document.getElementById('userName').textContent = "Nome do usuário: " + (user.displayName || "Sem nome");
+
+            // Preenche os campos do formulário
+            document.getElementById('altura').value = dados.altura || "";
+            document.getElementById('peso').value = dados.peso || "";
+            document.getElementById('idade').value = dados.idade || "";
+            document.getElementById('objetivo').value = dados.objetivo || "";
+            descricaoObjetivo.textContent = descricoes[dados.objetivo] || "";
+            document.getElementById('genero').value = dados.genero || "";
+          }
+        }).catch(err => console.error(err));
       } else {
         window.location.href = 'login.html';
       }
     });
 
-    // Salvar dados no Firestore
-    const form = document.getElementById('dadosForm');
+    // Salvar dados usando update() para não apagar equipamentos
     form.addEventListener('submit', (e) => {
       e.preventDefault();
-
       const altura = document.getElementById('altura').value;
       const peso = document.getElementById('peso').value;
       const idade = document.getElementById('idade').value;
@@ -97,7 +125,7 @@
 
       const user = auth.currentUser;
       if (user) {
-        db.collection('usuarios').doc(user.uid).set({
+        db.collection('usuarios').doc(user.uid).update({
           altura,
           peso,
           idade,
@@ -105,13 +133,12 @@
           genero
         })
           .then(() => {
-            form.reset();
             showCustomAlert('Dados salvos com sucesso!', () => {
-              window.location.href = 'cadastro3.html';
+              window.location.href = 'perfil.html';
             });
           })
-          .catch((error) => {
-            console.error('Erro ao salvar dados:', error);
+          .catch(err => {
+            console.error(err);
             showCustomAlert('Erro ao salvar dados. Veja o console.');
           });
       }
@@ -119,12 +146,10 @@
 
     // Logout
     document.getElementById('logoutBtn').addEventListener('click', () => {
-      auth.signOut().then(() => {
-        window.location.href = 'login.html';
-      });
+      auth.signOut().then(() => window.location.href = 'login.html');
     });
 
-    // ✅ Funções do modal personalizado
+    // Modal personalizado
     let customAlertCallback = null;
 
     function showCustomAlert(message, callback = null) {
@@ -143,27 +168,7 @@
         customAlertCallback = null;
       }
     }
-
-    // Exibe a descrição conforme o objetivo selecionado
-const objetivoSelect = document.getElementById('objetivo');
-const descricaoObjetivo = document.getElementById('descricaoObjetivo');
-
-const descricoes = {
-  "Resistência": "Resistência: Focado em aumentar a capacidade muscular e cardiovascular, melhorando a resistência física geral.",
-  "Força": "Força: Voltado para o ganho de força e potência muscular, com exercícios de alta intensidade e carga progressiva.",
-  "Crescimento": "Crescimento: Indicado para quem busca hipertrofia e aumento do volume muscular.",
-  "Funcional": "Funcional: Trabalha movimentos naturais do corpo, melhorando equilíbrio, coordenação e estabilidade.",
-  "Aeróbico": "Aeróbico: Ideal para quem deseja melhorar o condicionamento físico e queimar gordura corporal.",
-  "Mobilidade": "Mobilidade: Ajuda a aumentar a amplitude dos movimentos, flexibilidade e prevenir lesões."
-};
-
-objetivoSelect.addEventListener('change', () => {
-  const valor = objetivoSelect.value;
-  descricaoObjetivo.textContent = descricoes[valor] || "";
-});
-
   </script>
-
 </body>
 
 </html>

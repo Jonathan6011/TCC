@@ -80,7 +80,7 @@
   /* =========================
      BOTÃO DE SAIR
   ========================= */
-  #logoutBtn {
+  #logoutBtn, #editEquipamentosBtn, #editarPerfilBtn {
     width: 100%;
     padding: 14px;
     font-size: 1rem;
@@ -94,7 +94,7 @@
     box-shadow: 0 5px 15px rgba(0, 194, 168, 0.4);
   }
   
-  #logoutBtn:hover {
+  #logoutBtn:hover, #editEquipamentosBtn:hover,  #editarPerfilBtn:hover  {
     background: linear-gradient(90deg, #00e5c0, #009688);
     transform: translateY(-3px);
     box-shadow: 0 10px 25px rgba(0, 194, 168, 0.6);
@@ -115,3 +115,55 @@
     }
   }
   
+
+
+
+  /* TESTEEE */
+
+  .tab-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 70px;
+  background-color: #111;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-top: 1px solid #333;
+  z-index: 100;
+}
+
+.tab {
+  background: none;
+  border: none;
+  color: #aaa;
+  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  flex: 1;
+  padding: 5px;
+  transition: 0.2s;
+}
+
+.tab img {
+  width: 24px;
+  height: 24px;
+  margin-bottom: 3px;
+  filter: invert(70%);
+}
+
+.tab.active {
+  color: #fff;
+}
+
+.tab.active img {
+  filter: invert(100%);
+}
+
+.tab:hover {
+  color: #fff;
+  background-color: #222;
+}

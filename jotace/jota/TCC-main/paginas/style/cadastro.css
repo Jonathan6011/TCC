@@ -14,8 +14,7 @@
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
   }
-  
-  body {
+   body {
    background: linear-gradient(92deg, #000000, #00aea8, #eaeaea);
     background-size: 300% 300%;
     animation: gradientMove 15s ease infinite;
@@ -42,7 +41,7 @@
     text-align: center;
     width: 100%;
     max-width: 400px;
-    box-shadow: 0 0 15px rgb(255, 255, 255);
+    box-shadow: 0 0 15px #02d1bcd6;
     animation: fadeIn 0.8s ease-in-out;
     backdrop-filter: blur(5px);
   }

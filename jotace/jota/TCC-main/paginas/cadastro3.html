@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Gym Warriors - cadastro</title>
   <link rel="icon" type="image/png" href="../assets/logo.png">
   <link rel="stylesheet" href="style/cadastro3.css">
-  
+
   <!-- Firebase compat -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 </head>
+
 <body>
 
 
@@ -56,7 +58,7 @@
       { nome: "Corda", img: "../img/corda.png" },
       { nome: "Esteira", img: "../img/esteira.png" },
       { nome: "Corda naval", img: "../img/cordanaval.jpeg" },
-      { nome: "Sem Equipamento", img: "../img/sem_equipamento.jpg" }
+      { nome: "Corpo", img: "../img/sem_equipamento.jpg" }
     ];
 
     const selecionados = new Set();
@@ -93,16 +95,16 @@
       db.collection('usuarios').doc(user.uid).update({
         equipamentos: Array.from(selecionados)
       })
-      .then(() => {
-        showCustomAlert('Equipamentos salvos com sucesso!');
-        customAlertCallback = () => {
-          window.location.href = 'home.html';
-        };
-      })
-      .catch((error) => {
-        console.error("Erro ao salvar:", error);
-        showCustomAlert('Erro ao salvar equipamentos.');
-      });
+        .then(() => {
+          showCustomAlert('Equipamentos salvos com sucesso!');
+          customAlertCallback = () => {
+            window.location.href = 'home.html';
+          };
+        })
+        .catch((error) => {
+          console.error("Erro ao salvar:", error);
+          showCustomAlert('Erro ao salvar equipamentos.');
+        });
     }
 
     auth.onAuthStateChanged(user => {
@@ -132,4 +134,5 @@
     }
   </script>
 </body>
+
 </html>
